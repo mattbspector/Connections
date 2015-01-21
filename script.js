@@ -16,7 +16,7 @@ function onLinkedInLogout() {
 function onLinkedInLogin() {
   // here, we pass the fields as individual string parameters
   IN.API.Connections("me")
-    .fields("id", "firstName", "lastName", "pictureUrl", "publicProfileUrl")
+    .fields("id", "firstName", "lastName", "pictureUrl", "publicProfileUrl", "headline", "location:(name)", "positions:(is-current,title,company:(name))")
     .result(function(result, metadata) {
       setConnections(result.values, metadata);
     });
@@ -83,7 +83,9 @@ function playGame(connections){
   //document.getElementById("picture").innerHTML = currpic;
   //currpic = "<img align=\"baseline\" src=\"" + connections[rightPerson].pictureUrl + "\">"
   //document.getElementById("picture").innerHTML = currpic;
+  //document.getElementById("question").innerHTML = 
   document.getElementById("connectionsdata").innerHTML = connHTML;
+
 
     $(document).ready(function(){
 
@@ -116,6 +118,7 @@ function playGame(connections){
 
       currentscoretotal++;
       setScore();
+      playGame(connections);
     }
 
     return false;
