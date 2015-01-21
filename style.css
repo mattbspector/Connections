@@ -1,0 +1,23 @@
+body{
+	text-align: center;
+}
+
+.wrongattempt{
+	background-color: red;
+	color: white;
+}
+
+.rightattempt{
+	background-color: green;
+	color: white;
+}
+
+#connectionstest{
+	text-align: center;
+}
+
+#picture img{
+	width: 250px;
+	height: 250px;
+	border-radius: 5%;
+}
