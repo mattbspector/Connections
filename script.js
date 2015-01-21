@@ -2,6 +2,7 @@ var currentscoreright = 0;
 var currentscoretotal = 0;
 var totalpeople = 0;
 var totalrightonfirst = 0;
+var rightone = "";
 
 
 function onLinkedInLoad() {
@@ -23,11 +24,15 @@ function onLinkedInLogin() {
 }
 
 function playGame(connections){
+
+
+  var fcounter = 0;
    var first = true;
    var connHTML = "";
    var connsize = connections.length;
 
   var rightPerson = Math.floor((Math.random() * connsize));
+  rightone = rightPerson;
   var optionOne = Math.floor((Math.random() * connsize));
 
 
@@ -53,45 +58,18 @@ function playGame(connections){
   }
 
   var options = [rightPerson, optionOne, optionTwo, optionThree];
-  var counter = 0;
-  options.sort( function() { return 0.5 - Math.random() } );
-  console.log(rightPerson);
-  while(counter < 4)
-  {
-     var index = Math.floor((Math.random() * 3));
-     var yes = "Wrong";
-     console.log(options[counter]);
+  var rawoptions = options;
 
-     if(options[counter] == rightPerson)
-     {
-        yes = "Right";
-     }
-     connHTML += "<button class = 'button "+ yes + " ' " +   ">" + connections[options[counter]].firstName + " " + connections[options[counter]].lastName + "</button>" +" <br>";
-     counter++;
+  
 
-  }
-
-  var currpic = "";
-  IN.API.Raw("/people/" + connections[rightPerson].id +"/picture-urls::(original)").result(function(value, currpic){
-
-    currpic = "<img align=\"baseline\" src=\"" + value.values[0] + "\">";
-    console.log(currpic);
-     document.getElementById("picture").innerHTML = currpic;
-  });
-
-  console.log(currpic);
-  //document.getElementById("picture").innerHTML = currpic;
-  //currpic = "<img align=\"baseline\" src=\"" + connections[rightPerson].pictureUrl + "\">"
-  //document.getElementById("picture").innerHTML = currpic;
-  //document.getElementById("question").innerHTML = 
-  document.getElementById("connectionsdata").innerHTML = connHTML;
+  firstName(options, connections);
+  
+  $(document).ready(function(){
 
 
-    $(document).ready(function(){
+  $(".button").on("click", function(){
 
-
-  $(".button").click(function(){
-      console.log("HI");
+    console.log("HI");
     if($(this).hasClass("Right"))
     {
 
@@ -106,7 +84,9 @@ function playGame(connections){
       currentscoreright++;
       currentscoretotal++;
       setScore();
-      playGame(connections);
+      secondName(options, connections);
+   
+      
       //location.reload();
     }
     if($(this).hasClass("Wrong"))
@@ -122,6 +102,8 @@ function playGame(connections){
     }
 
     return false;
+
+
   });
 
 
@@ -142,3 +124,353 @@ function setConnections(connections) {
   playGame(connections);
 
 }
+
+
+function firstName(tempoptions, connections)
+{
+
+  console.log(connections[0].positions.values[0].company.name);
+
+  var connHTML = "";
+  var rightPerson = rightone;
+  var counter = 0;
+  var options = tempoptions;
+  options.sort( function() { return 0.5 - Math.random() } );
+
+
+
+  console.log(rightPerson);
+  while(counter < 4)
+  {
+     var index = Math.floor((Math.random() * 3));
+     var yes = "Wrong";
+     console.log(options[counter]);
+
+     if(options[counter] == rightPerson)
+     {
+        yes = "Right";
+     }
+     connHTML += "<button class = 'button "+ yes + " ' " +   ">" + connections[options[counter]].firstName + "</button>" +" <br>";
+     counter++;
+
+  }
+
+  var currpic = "";
+  IN.API.Raw("/people/" + connections[rightPerson].id +"/picture-urls::(original)").result(function(value, currpic){
+
+    currpic = "<img align=\"baseline\" src=\"" + value.values[0] + "\">";
+    console.log(currpic);
+     document.getElementById("picture").innerHTML = currpic;
+  });
+
+  console.log(currpic);
+  //document.getElementById("picture").innerHTML = currpic;
+  //currpic = "<img align=\"baseline\" src=\"" + connections[rightPerson].pictureUrl + "\">"
+  //document.getElementById("picture").innerHTML = currpic;
+  document.getElementById("question").innerHTML = "What is this Connection's First Name?";
+  document.getElementById("connectionsdata").innerHTML = connHTML;
+
+}
+
+function secondName(tempoptions, connections)
+{
+  var connHTML = "";
+  var rightPerson = rightone;
+  var counter = 0;
+  var options = tempoptions;
+  options.sort( function() { return 0.5 - Math.random() } );
+
+
+
+  console.log(rightPerson);
+  while(counter < 4)
+  {
+     var index = Math.floor((Math.random() * 3));
+     var yes = "Wrong";
+     console.log(options[counter]);
+
+     if(options[counter] == rightPerson)
+     {
+        yes = "Right";
+     }
+     connHTML += "<button class = 'button "+ yes + " ' " +   ">" + connections[options[counter]].lastName + "</button>" +" <br>";
+     counter++;
+
+  }
+  //document.getElementById("picture").innerHTML = currpic;
+  //currpic = "<img align=\"baseline\" src=\"" + connections[rightPerson].pictureUrl + "\">"
+  //document.getElementById("picture").innerHTML = currpic;
+  document.getElementById("question").innerHTML = "What is this Connection's Last Name?";
+  document.getElementById("connectionsdata").innerHTML = connHTML;
+   $(document).ready(function(){
+
+
+  $(".button").on("click", function(){
+
+    console.log("HI");
+    if($(this).hasClass("Right"))
+    {
+
+      $(this).addClass("rightattempt");
+      $(this).attr("disabled", true);
+
+      alert("GOT IT");
+      currentscoreright++;
+      currentscoretotal++;
+      setScore();
+      currentLocation(options, connections);
+      //location.reload();
+    }
+    if($(this).hasClass("Wrong"))
+    {
+      first = false;
+      $(this).addClass("wrongattempt");
+      $(this).attr("disabled", true);
+      alert("NOPE");
+
+      currentscoretotal++;
+      setScore();
+      playGame(connections);
+    }
+
+    return false;
+  });
+
+});
+
+}
+
+function currentLocation(tempoptions, connections)
+{
+  var connHTML = "";
+  var rightPerson = rightone;
+  var counter = 0;
+  var options = tempoptions;
+  options.sort( function() { return 0.5 - Math.random() } );
+
+
+
+  console.log(rightPerson);
+  while(counter < 4)
+  {
+     var index = Math.floor((Math.random() * 3));
+     var yes = "Wrong";
+     console.log(options[counter]);
+
+     if(options[counter] == rightPerson)
+     {
+        yes = "Right";
+        connHTML += "<button class = 'button "+ yes + " ' " +   ">" + connections[options[counter]].location.name + "</button>" +" <br>";
+     }
+
+    else if(connections[options[counter]].location.name != connections[rightPerson].location.name)
+    {
+           connHTML += "<button class = 'button "+ yes + " ' " +   ">" + connections[options[counter]].location.name + "</button>" +" <br>";
+    }
+  
+     counter++;
+
+  }
+  //document.getElementById("picture").innerHTML = currpic;
+  //currpic = "<img align=\"baseline\" src=\"" + connections[rightPerson].pictureUrl + "\">"
+  //document.getElementById("picture").innerHTML = currpic;
+  document.getElementById("question").innerHTML = "What is this Connection's Current Location?";
+  document.getElementById("connectionsdata").innerHTML = connHTML;
+   $(document).ready(function(){
+
+
+  $(".button").on("click", function(){
+
+    console.log("HI");
+    if($(this).hasClass("Right"))
+    {
+
+      $(this).addClass("rightattempt");
+      $(this).attr("disabled", true);
+
+      alert("GOT IT");
+      currentscoreright++;
+      currentscoretotal++;
+      setScore();
+      currentEmployer(options, connections);
+      //location.reload();
+    }
+    if($(this).hasClass("Wrong"))
+    {
+      first = false;
+      $(this).addClass("wrongattempt");
+      $(this).attr("disabled", true);
+      alert("NOPE");
+
+      currentscoretotal++;
+      setScore();
+      playGame(connections);
+    }
+
+    return false;
+  });
+
+});
+
+}
+
+function currentEmployer(tempoptions, connections)
+{
+  var connHTML = "";
+  var rightPerson = rightone;
+  var counter = 0;
+  var options = tempoptions;
+  options.sort( function() { return 0.5 - Math.random() } );
+
+
+
+  console.log(rightPerson);
+
+  if(connections[rightPerson].positions._total == 0)
+  {
+    currentTitle(options,connections);
+  }
+  while(counter < 4)
+  {
+     var index = Math.floor((Math.random() * 3));
+     var yes = "Wrong";
+
+
+     if(options[counter] == rightPerson)
+     {
+        yes = "Right";
+     }
+     if(connections[options[counter]].positions._total > 0)
+     {
+     connHTML += "<button class = 'button "+ yes + " ' " +   ">" + connections[options[counter]].positions.values[0].company.name + "</button>" +" <br>";
+     }
+    
+  
+     counter++;
+
+  }
+  //document.getElementById("picture").innerHTML = currpic;
+  //currpic = "<img align=\"baseline\" src=\"" + connections[rightPerson].pictureUrl + "\">"
+  //document.getElementById("picture").innerHTML = currpic;
+  document.getElementById("question").innerHTML = "What is this Connection's Current Employer?";
+  document.getElementById("connectionsdata").innerHTML = connHTML;
+   $(document).ready(function(){
+
+
+  $(".button").on("click", function(){
+
+    console.log("HI");
+    if($(this).hasClass("Right"))
+    {
+
+      $(this).addClass("rightattempt");
+      $(this).attr("disabled", true);
+
+      alert("GOT IT");
+      currentscoreright++;
+      currentscoretotal++;
+      setScore();
+      currentTitle(options, connections);
+      //location.reload();
+    }
+    if($(this).hasClass("Wrong"))
+    {
+      first = false;
+      $(this).addClass("wrongattempt");
+      $(this).attr("disabled", true);
+      alert("NOPE");
+
+      currentscoretotal++;
+      setScore();
+      playGame(connections);
+    }
+
+    return false;
+  });
+
+});
+
+}
+
+function currentTitle(tempoptions, connections)
+{
+  var connHTML = "";
+  var rightPerson = rightone;
+  var counter = 0;
+  var options = tempoptions;
+  options.sort( function() { return 0.5 - Math.random() } );
+
+
+
+  console.log(rightPerson);
+  while(counter < 4)
+  {
+     var index = Math.floor((Math.random() * 3));
+     var yes = "Wrong";
+
+
+     if(options[counter] == rightPerson)
+     {
+        yes = "Right";
+     }
+   
+     connHTML += "<button class = 'button "+ yes + " ' " +   ">" + connections[options[counter]].headline + "</button>" +" <br>";
+ 
+    
+  
+     counter++;
+
+  }
+  //document.getElementById("picture").innerHTML = currpic;
+  //currpic = "<img align=\"baseline\" src=\"" + connections[rightPerson].pictureUrl + "\">"
+  //document.getElementById("picture").innerHTML = currpic;
+  document.getElementById("question").innerHTML = "What is this Connection's Current Title?";
+  document.getElementById("connectionsdata").innerHTML = connHTML;
+   $(document).ready(function(){
+
+
+  $(".button").on("click", function(){
+
+    console.log("HI");
+    if($(this).hasClass("Right"))
+    {
+
+      $(this).addClass("rightattempt");
+      $(this).attr("disabled", true);
+
+      alert("GOT IT");
+      currentscoreright++;
+      currentscoretotal++;
+      setScore();
+      currentTitle(options, connections);
+      //location.reload();
+    }
+    if($(this).hasClass("Wrong"))
+    {
+      first = false;
+      $(this).addClass("wrongattempt");
+      $(this).attr("disabled", true);
+      alert("NOPE");
+
+      currentscoretotal++;
+      setScore();
+      playGame(connections);
+    }
+
+    return false;
+  });
+
+});
+
+}
+
+
+
+
+
+
+
+
+
+
+
