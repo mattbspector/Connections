@@ -77,7 +77,7 @@ function playGame(connections){
       {
         totalrightonfirst++;
       }
-      $(this).addClass("rightattempt");
+      $(this).addClass("button-success");
       $(this).attr("disabled", true);
 
       alert("GOT IT");
@@ -92,7 +92,7 @@ function playGame(connections){
     if($(this).hasClass("Wrong"))
     {
       first = false;
-      $(this).addClass("wrongattempt");
+      $(this).addClass("button-error");
       $(this).attr("disabled", true);
       alert("NOPE");
 
@@ -150,7 +150,7 @@ function firstName(tempoptions, connections)
      {
         yes = "Right";
      }
-     connHTML += "<button class = 'button "+ yes + " ' " +   ">" + connections[options[counter]].firstName + "</button>" +" <br>";
+     connHTML += "<button class = 'button pure-button "+ yes + " ' " +   ">" + connections[options[counter]].firstName + "</button>" +" <br>";
      counter++;
 
   }
@@ -193,7 +193,7 @@ function secondName(tempoptions, connections)
      {
         yes = "Right";
      }
-     connHTML += "<button class = 'button "+ yes + " ' " +   ">" + connections[options[counter]].lastName + "</button>" +" <br>";
+     connHTML += "<button class = 'button pure-button "+ yes + " ' " +   ">" + connections[options[counter]].lastName + "</button>" +" <br>";
      counter++;
 
   }
@@ -211,7 +211,7 @@ function secondName(tempoptions, connections)
     if($(this).hasClass("Right"))
     {
 
-      $(this).addClass("rightattempt");
+      $(this).addClass("button-success");
       $(this).attr("disabled", true);
 
       alert("GOT IT");
@@ -224,7 +224,7 @@ function secondName(tempoptions, connections)
     if($(this).hasClass("Wrong"))
     {
       first = false;
-      $(this).addClass("wrongattempt");
+      $(this).addClass("button-error");
       $(this).attr("disabled", true);
       alert("NOPE");
 
@@ -260,12 +260,12 @@ function currentLocation(tempoptions, connections)
      if(options[counter] == rightPerson)
      {
         yes = "Right";
-        connHTML += "<button class = 'button "+ yes + " ' " +   ">" + connections[options[counter]].location.name + "</button>" +" <br>";
+        connHTML += "<button class = 'button pure-button "+ yes + " ' " +   ">" + connections[options[counter]].location.name + "</button>" +" <br>";
      }
 
     else if(connections[options[counter]].location.name != connections[rightPerson].location.name)
     {
-           connHTML += "<button class = 'button "+ yes + " ' " +   ">" + connections[options[counter]].location.name + "</button>" +" <br>";
+           connHTML += "<button class = 'button pure-button "+ yes + " ' " +   ">" + connections[options[counter]].location.name + "</button>" +" <br>";
     }
   
      counter++;
@@ -285,7 +285,7 @@ function currentLocation(tempoptions, connections)
     if($(this).hasClass("Right"))
     {
 
-      $(this).addClass("rightattempt");
+      $(this).addClass("button-success");
       $(this).attr("disabled", true);
 
       alert("GOT IT");
@@ -298,7 +298,7 @@ function currentLocation(tempoptions, connections)
     if($(this).hasClass("Wrong"))
     {
       first = false;
-      $(this).addClass("wrongattempt");
+      $(this).addClass("button-error");
       $(this).attr("disabled", true);
       alert("NOPE");
 
@@ -342,7 +342,7 @@ function currentEmployer(tempoptions, connections)
      }
      if(connections[options[counter]].positions._total > 0)
      {
-     connHTML += "<button class = 'button "+ yes + " ' " +   ">" + connections[options[counter]].positions.values[0].company.name + "</button>" +" <br>";
+     connHTML += "<button class = 'button pure-button "+ yes + " ' " +   ">" + connections[options[counter]].positions.values[0].company.name + "</button>" +" <br>";
      }
     
   
@@ -363,7 +363,7 @@ function currentEmployer(tempoptions, connections)
     if($(this).hasClass("Right"))
     {
 
-      $(this).addClass("rightattempt");
+      $(this).addClass("button-success");
       $(this).attr("disabled", true);
 
       alert("GOT IT");
@@ -376,7 +376,7 @@ function currentEmployer(tempoptions, connections)
     if($(this).hasClass("Wrong"))
     {
       first = false;
-      $(this).addClass("wrongattempt");
+      $(this).addClass("button-error");
       $(this).attr("disabled", true);
       alert("NOPE");
 
@@ -414,7 +414,7 @@ function currentTitle(tempoptions, connections)
         yes = "Right";
      }
    
-     connHTML += "<button class = 'button "+ yes + " ' " +   ">" + connections[options[counter]].headline + "</button>" +" <br>";
+     connHTML += "<button class = 'button pure-button "+ yes + " ' " +   ">" + connections[options[counter]].headline + "</button>" +" <br>";
  
     
   
@@ -435,7 +435,7 @@ function currentTitle(tempoptions, connections)
     if($(this).hasClass("Right"))
     {
 
-      $(this).addClass("rightattempt");
+      $(this).addClass("button-success");
       $(this).attr("disabled", true);
 
       alert("GOT IT");
@@ -448,7 +448,7 @@ function currentTitle(tempoptions, connections)
     if($(this).hasClass("Wrong"))
     {
       first = false;
-      $(this).addClass("wrongattempt");
+      $(this).addClass("button-error");
       $(this).attr("disabled", true);
       alert("NOPE");
 
