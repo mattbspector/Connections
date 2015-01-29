@@ -1,9 +1,15 @@
+.hello{
+
+}
+
 body{
 	text-align: center;
 	background-color: #0077b4;
-	font-family: 'Lato';
+	font-family: 'Arvo';
 	color: #FFF;
 }
+
+
 .button{
 	margin: 10px;
 	width: 75%;
@@ -37,6 +43,7 @@ body{
 
         .button-success {
             background: rgb(28, 184, 65); /* this is a green */
+            opacity: 1.0;
         }
 
         .button-error {
@@ -50,3 +57,54 @@ body{
         .button-secondary {
             background: rgb(66, 184, 221); /* this is a light blue */
         }
+
+
+.spec{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	margin-bottom: 20px;
+	margin-left: -18%;
+
+}
+
+.here{
+	text-align: left;
+	margin-top: 20%;
+}
+
+#picture{
+	float: left;
+	width: 250px;
+	margin-left: 72px;
+}
+
+#stats{
+	float: left;
+	width: 45%;
+	text-align: left;
+	position: absolute;
+	left: 55%;
+	top:35px;
+
+}
+.clear{
+	clear: both;
+}
+
+#connectionstest{
+	width: 650px;
+	margin: 0 auto;
+}
+
+.IN-widget{
+	width: 100%;
+	text-align: center;
+}
+
+#madeby{
+	position: absolute;
+	bottom: 5px;
+	right: 20px;
+
+}

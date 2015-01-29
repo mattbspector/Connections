@@ -3,7 +3,8 @@
 <head>
 	<script type="text/javascript" src = "JQuery.js"></script>
 	<script type="text/javascript" src = "actions.js"></script>
-	<title>Connection Quiz</title>
+	<script type="text/javascript" src = "jcolor.js"></script>
+	<title>NetQuiz!</title>
 	<script type="text/javascript" src="http://platform.linkedin.com/in.js">
 	  api_key: 787m81fh7h6ulh
 	  authorize: true
@@ -13,17 +14,35 @@
 	<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<link href='http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Arvo:400,700,400italic' rel='stylesheet' type='text/css'>
 </head>
 <body>
 <!-- NOTE: be sure to set onLoad: onLinkedInLoad -->
-<script type="IN/Login">
 
-<div id="connectionstest">
+
+<div id="connectionstest" style = "display:none;">
 <h1 id = "question"></h1>
   <div id = "picture"></div>
+  <div id = "stats"></div>
+  <div class = "clear"></div>
   <div id="connectionsdata"></div>
-  <div id = "score"></div>
+  <div id = "madeby">Made With &hearts; by Matt Spector</div>
 </div>
+
+
+
+<h1 class = "ya" style = "font-size:90px;">NetQuiz!</h1>
+
+<a class = "hello pure-button" style = "font-size:40px;">Login</a>
+
+<script>
+$("#connectionstest").show();
+$(".hello").bind('click',function () {
+	$(this).hide();
+	$(".ya").hide();
+
+	IN.User.authorize(); return false;});
+
 </script>
 </body>
 </html>

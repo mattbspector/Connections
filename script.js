@@ -4,6 +4,7 @@ var totalpeople = 0;
 var totalrightonfirst = 0;
 var rightone = "";
 
+var currstats = "";
 
 function onLinkedInLoad() {
   IN.Event.on(IN, "auth", function() {onLinkedInLogin();});
@@ -25,10 +26,16 @@ function onLinkedInLogin() {
 
 function playGame(connections){
 
+  $(".ya").hide();
+    $(".hello").hide();
 
   var fcounter = 0;
    var first = true;
    var connHTML = "";
+   if(connections.length === 'undefined')
+   {
+      location.reload();
+   }
    var connsize = connections.length;
 
   var rightPerson = Math.floor((Math.random() * connsize));
@@ -78,13 +85,23 @@ function playGame(connections){
         totalrightonfirst++;
       }
       $(this).addClass("button-success");
+      $(this).css("opacity","1.0");
       $(this).attr("disabled", true);
 
-      alert("GOT IT");
+      //$(this).animate({height:"20px"}, 500, function(){secondName(options, connections)});
       currentscoreright++;
       currentscoretotal++;
-      setScore();
-      secondName(options, connections);
+      
+
+      var stats = "";
+      currstats += "<ul class = 'here'><li class = 'spec activea'>First Name:   " + connections[rightPerson].firstName+ "</li>"
+      stats = currstats + "<li class = 'spec'>Last Name:  </li><li class = 'spec'>Current Location: </li><li class = 'spec'>Current Employer: </li><li class = 'spec'>Current Title:</li></ul>";
+      document.getElementById("stats").innerHTML = stats;
+
+
+      $(".activea").animate({color:"#1CB841", fontSize:"25px"}, 1000).animate({color:"#FFF", fontSize: "15px"}, 1000, function(){secondName(options, connections)});
+
+
    
       
       //location.reload();
@@ -93,12 +110,21 @@ function playGame(connections){
     {
       first = false;
       $(this).addClass("button-error");
+       $(this).css("opacity","1.0");
       $(this).attr("disabled", true);
-      alert("NOPE");
+  
 
       currentscoretotal++;
-      setScore();
-      playGame(connections);
+      
+
+      var stats = "";
+      currstats += "<ul class = 'here'><li class = 'spec activea'>First Name:   " + connections[rightPerson].firstName+ "</li>"
+      stats = currstats + "<li class = 'spec'>Last Name:  </li><li class = 'spec'>Current Location: </li><li class = 'spec'>Current Employer: </li><li class = 'spec'>Current Title:</li></ul>";
+      document.getElementById("stats").innerHTML = stats;
+
+      currstats = "";
+      $(".activea").animate({color:"#CA3C3C", fontSize:"25px"}, 1000).animate({color:"#FFF", fontSize: "15px"}, 1000, function(){playGame(connections)});
+
     }
 
     return false;
@@ -120,7 +146,7 @@ function setScore(){
 
 function setConnections(connections) {
   console.log(connections);
-  setScore();
+  
   playGame(connections);
 
 }
@@ -156,11 +182,16 @@ function firstName(tempoptions, connections)
   }
 
   var currpic = "";
+  var stats = "";
   IN.API.Raw("/people/" + connections[rightPerson].id +"/picture-urls::(original)").result(function(value, currpic){
 
     currpic = "<img align=\"baseline\" src=\"" + value.values[0] + "\">";
-    console.log(currpic);
+
+  stats = "<ul class = 'here'><li class = 'spec'>First Name: </li><li class = 'spec'>Last Name:  </li><li class = 'spec'>Current Location: </li><li class = 'spec'>Current Employer: </li><li class = 'spec'>Current Title:</li></ul>";
+
+
      document.getElementById("picture").innerHTML = currpic;
+     document.getElementById("stats").innerHTML = stats;
   });
 
   console.log(currpic);
@@ -205,35 +236,57 @@ function secondName(tempoptions, connections)
    $(document).ready(function(){
 
 
-  $(".button").on("click", function(){
+   $(".button").on("click", function(){
 
     console.log("HI");
     if($(this).hasClass("Right"))
     {
 
       $(this).addClass("button-success");
+      $(this).css("opacity","1.0");
       $(this).attr("disabled", true);
 
-      alert("GOT IT");
+      //$(this).animate({height:"20px"}, 500, function(){secondName(options, connections)});
       currentscoreright++;
       currentscoretotal++;
-      setScore();
-      currentLocation(options, connections);
+      
+
+      var stats = "";
+      currstats += "<li class = 'spec activeb'>Last Name:   " + connections[rightPerson].lastName+ "</li>"
+      stats = currstats + "<li class = 'spec'>Current Location: </li><li class = 'spec'>Current Employer: </li><li class = 'spec'>Current Title:</li></ul>";
+      document.getElementById("stats").innerHTML = stats;
+
+
+      $(".activeb").animate({color:"#1CB841", fontSize:"25px"}, 1000).animate({color:"#FFF", fontSize: "15px"}, 1000, function(){currentLocation(options, connections)});
+
+
+   
+      
       //location.reload();
     }
     if($(this).hasClass("Wrong"))
     {
       first = false;
       $(this).addClass("button-error");
+      $(this).css("opacity","1.0");
       $(this).attr("disabled", true);
-      alert("NOPE");
+  
 
       currentscoretotal++;
-      setScore();
-      playGame(connections);
+      
+
+ var stats = "";
+      currstats += "<li class = 'spec activeb'>Last Name:   " + connections[rightPerson].lastName+ "</li>"
+      stats = currstats + "<li class = 'spec'>Current Location: </li><li class = 'spec'>Current Employer: </li><li class = 'spec'>Current Title:</li></ul>";
+      document.getElementById("stats").innerHTML = stats;
+
+      currstats = "";
+      $(".activeb").animate({color:"#CA3C3C", fontSize:"25px"}, 1000).animate({color:"#FFF", fontSize: "15px"}, 1000, function(){playGame(connections)});
     }
 
     return false;
+
+
   });
 
 });
@@ -248,6 +301,11 @@ function currentLocation(tempoptions, connections)
   var options = tempoptions;
   options.sort( function() { return 0.5 - Math.random() } );
 
+
+  if(connections[rightPerson].location === 'undefined')
+  {
+    playGame(connections);
+  }
 
 
   console.log(rightPerson);
@@ -279,35 +337,58 @@ function currentLocation(tempoptions, connections)
    $(document).ready(function(){
 
 
-  $(".button").on("click", function(){
+   $(".button").on("click", function(){
 
     console.log("HI");
     if($(this).hasClass("Right"))
     {
 
       $(this).addClass("button-success");
+      $(this).css("opacity","1.0");
       $(this).attr("disabled", true);
 
-      alert("GOT IT");
+      //$(this).animate({height:"20px"}, 500, function(){secondName(options, connections)});
       currentscoreright++;
       currentscoretotal++;
-      setScore();
-      currentEmployer(options, connections);
+      
+
+      var stats = "";
+      currstats += "<li class = 'spec activec'>Current Location:   " + connections[rightPerson].location.name+ "</li>"
+      stats = currstats + "<li class = 'spec'>Current Employer: </li><li class = 'spec'>Current Title:</li></ul>";
+      document.getElementById("stats").innerHTML = stats;
+
+
+      $(".activec").animate({color:"#1CB841", fontSize:"20px"}, 1000).animate({color:"#FFF", fontSize: "15px"}, 1000, function(){currentEmployer(options, connections)});
+
+
+   
+      
       //location.reload();
     }
     if($(this).hasClass("Wrong"))
     {
       first = false;
       $(this).addClass("button-error");
+      $(this).css("opacity","1.0");
       $(this).attr("disabled", true);
-      alert("NOPE");
+  
 
       currentscoretotal++;
-      setScore();
-      playGame(connections);
+      
+
+ var stats = "";
+      currstats += "<li class = 'spec activec'>Current Location:   " + connections[rightPerson].location.name+ "</li>"
+      stats = currstats + "<li class = 'spec'>Current Employer: </li><li class = 'spec'>Current Title:</li></ul>";
+      document.getElementById("stats").innerHTML = stats;
+
+
+      currstats = "";
+      $(".activec").animate({color:"#CA3C3C", fontSize:"20px"}, 1000).animate({color:"#FFF", fontSize: "15px"}, 1000, function(){playGame(connections)});
     }
 
     return false;
+
+
   });
 
 });
@@ -364,28 +445,51 @@ function currentEmployer(tempoptions, connections)
     {
 
       $(this).addClass("button-success");
+      $(this).css("opacity","1.0");
       $(this).attr("disabled", true);
 
-      alert("GOT IT");
+      //$(this).animate({height:"20px"}, 500, function(){secondName(options, connections)});
       currentscoreright++;
       currentscoretotal++;
-      setScore();
-      currentTitle(options, connections);
+      
+
+      var stats = "";
+      currstats += "<li class = 'spec actived'>Current Employer:   " + connections[rightPerson].positions.values[0].company.name+ "</li>"
+      stats = currstats + "<li class = 'spec'>Current Title:</li></ul>";
+      document.getElementById("stats").innerHTML = stats;
+
+
+      $(".actived").animate({color:"#1CB841", fontSize:"20px"}, 1000).animate({color:"#FFF", fontSize: "15px"}, 1000, function(){currentTitle(options, connections)});
+
+
+   
+      
       //location.reload();
     }
     if($(this).hasClass("Wrong"))
     {
       first = false;
       $(this).addClass("button-error");
+      $(this).css("opacity","1.0");
       $(this).attr("disabled", true);
-      alert("NOPE");
+  
 
       currentscoretotal++;
-      setScore();
-      playGame(connections);
+      
+
+ var stats = "";
+      currstats += "<li class = 'spec actived'>Current Employer:   " + connections[rightPerson].positions.values[0].company.name+ "</li>"
+      stats = currstats + "<li class = 'spec'>Current Title:</li></ul>";
+      document.getElementById("stats").innerHTML = stats;
+
+
+      currstats = "";
+      $(".actived").animate({color:"#CA3C3C", fontSize:"20px"}, 1000).animate({color:"#FFF", fontSize: "15px"}, 1000, function(){playGame(connections)});
     }
 
     return false;
+
+
   });
 
 });
@@ -436,30 +540,50 @@ function currentTitle(tempoptions, connections)
     {
 
       $(this).addClass("button-success");
+      $(this).css("opacity","1.0");
       $(this).attr("disabled", true);
 
-      alert("GOT IT");
+      //$(this).animate({height:"20px"}, 500, function(){secondName(options, connections)});
       currentscoreright++;
       currentscoretotal++;
-      setScore();
-      currentTitle(options, connections);
+      
+
+      var stats = "";
+      currstats += "<li class = 'spec activee'>Current Title:   " + connections[rightPerson].headline+ "</li>"
+      stats = currstats + "</ul>";
+      document.getElementById("stats").innerHTML = stats;
+
+      currstats = "";
+      $(".activee").animate({color:"#1CB841", fontSize:"20px"}, 1000).animate({color:"#FFF", fontSize: "15px"}, 1000, function(){playGame(connections)});
+
+
+   
+      
       //location.reload();
     }
     if($(this).hasClass("Wrong"))
     {
       first = false;
       $(this).addClass("button-error");
+      $(this).css("opacity","1.0");
       $(this).attr("disabled", true);
-      alert("NOPE");
+  
 
       currentscoretotal++;
-      setScore();
-      playGame(connections);
+      
+
+     var stats = "";
+      currstats += "<li class = 'spec activee'>Current Title:   " + connections[rightPerson].headline+ "</li>"
+      stats = currstats + "</ul>";
+      document.getElementById("stats").innerHTML = stats;
+      currstats = "";
+      $(".activee").animate({color:"#CA3C3C", fontSize:"20px"}, 1000).animate({color:"#FFF", fontSize: "15px"}, 1000, function(){playGame(connections)});
     }
 
     return false;
-  });
 
+
+  });
 });
 
 }
